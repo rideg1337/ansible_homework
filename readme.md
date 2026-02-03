@@ -1,10 +1,10 @@
 
 # Ansible Homewrok
 
-### A feladat:
+## A feladat:
 Telepitenunk kell egy nginx webszervert majd azt automatikus inditasba kell rakni.
 
-#### Playbook magyarazat:
+### Playbook magyarazat:
 
 
 Definialjuk a hosztokat, root-a valunk es felparameterezzuk valtozoval a jinja template-et
@@ -69,4 +69,43 @@ Mivel atszerkeztettuk az ```index.html``` fajlt, igy szukseges ujrainditanunk a 
       service:
         name: nginx
         state: restarted
+```
+
+---
+
+### Inventory magyarazat:
+
+```yml
+# A web csoporthoz tartozo gep(ek)
+[web] 
+# Itt lehet web mivel az etc/hosts-ban megadtuk a nevfeloldast de lehet ip cim is
+rocky9 ansible_host=web 
+#SSH port a celgepen
+ansible_port=22
+# Melyk felhasznalo es jelszo kombinacioval csatlakozunk a celgepre 
+# (celgepen leteznie kell a felhasznalonak)
+ansible_user=homework
+ansible_ssh_pass=homework
+```
+
+---
+
+### Jinja template magyarazat:
+
+Ez egy egyszeru HTML oldal, itt a lenyeg a vars-oknal talalhato.
+Lenyegeben a playbook ugyanezt felmasolja csak ahol megadtuk a valtozokat ott fogja a playbook behelyettesiteni:
+```{{ ansible_hostname }}``` - ez a hostname a celgepen (gather facts)
+```{{ my_name }}``` - ezt definialtuk a playbookban ``` - my_name: "<h1>Rideg Zsolt</h1>"```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ ansible_hostname }} - Nginx</title>
+</head>
+<body>
+        {{ my_name }}
+</body>
+</html>
 ```
