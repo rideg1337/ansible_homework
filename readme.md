@@ -94,8 +94,9 @@ ansible_ssh_pass=homework
 
 Ez egy egyszeru HTML oldal, itt a lenyeg a vars-oknal talalhato.
 Lenyegeben a playbook ugyanezt felmasolja csak ahol megadtuk a valtozokat ott fogja a playbook behelyettesiteni:
-```{{ ansible_hostname }}``` - ez a hostname a celgepen (gather facts)
-```{{ my_name }}``` - ezt definialtuk a playbookban ``` - my_name: "<h1>Rideg Zsolt</h1>"```
+
+- ```{{ ansible_hostname }}``` - ez a hostname a celgepen (gather facts)
+- ```{{ my_name }}``` - ezt definialtuk a playbookban ``` - my_name: "<h1>Rideg Zsolt</h1>"```
 
 ```html
 <!DOCTYPE html>
