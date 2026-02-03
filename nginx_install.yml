@@ -1,0 +1,38 @@
+---
+- name: Do My Homework
+  hosts: web
+  become: yes
+  vars:
+    - my_name: "<h1>Rideg Zsolt</h1>"
+
+  tasks:
+
+  - name: Firewalld enable http
+    ansible.posix.firewalld:
+      service: http
+      permanent: true
+      state: enabled
+      immediate: true
+
+  - name: Install nginx
+    package:
+      name: nginx
+      state: present
+
+  - name: Enable nginx permanent
+    ansible.builtin.systemd:
+      name: nginx
+      state: started
+      enabled: yes
+
+  - name: Edit nginx
+    template:
+      src: index.j2
+      dest: /usr/share/nginx/html/index.html
+    notify: Restart nginx
+
+  handlers:
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted
